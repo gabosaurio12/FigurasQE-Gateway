@@ -20,4 +20,19 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/register', async (req, res) => {
+    try {
+        const response = await axios.post(
+            `${AUTH_SERVICE}/auth/register`,
+            req.body
+        );
+
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({
+            message: "Authentication Service Error"
+        });
+    }
+});
+
 module.exports = router;
