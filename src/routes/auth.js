@@ -14,8 +14,12 @@ router.post('/login', async (req, res) => {
 
         res.status(response.status).json(response.data);
     } catch (error) {
-        res.status(error.response?.status || 500).json({
-            message: "Authentication Service Error"
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        
+        res.status(status).json({
+            message: data?.message || "Authentication Service Error",
+            errors: data?.errors || null
         });
     }
 });
@@ -29,8 +33,12 @@ router.post('/register', async (req, res) => {
 
         res.status(response.status).json(response.data);
     } catch (error) {
-        res.status(error.response?.status || 500).json({
-            message: "Authentication Service Error"
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+
+        res.status(status).json({
+            message: data?.message || "Authentication Service Error",
+            errors: data?.errors || null
         });
     }
 });

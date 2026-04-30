@@ -14,4 +14,21 @@ router.get('/students', async (req, res) => {
     }
 });
 
+router.get('/students/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await axios.get(
+            `${DATA_SERVICE}/students/${id}`,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ message: "Data Service Error" });
+    }
+});
+
 module.exports = router;
