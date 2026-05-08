@@ -7,10 +7,16 @@ const DATA_SERVICE = process.env.DATA_SERVICE;
 
 router.get('/students', async (req, res) => {
     try {
-        const response = await axios.get(`${DATA_SERVICE}/students`);
-        res.json(response.data);
+        const response = await axios.get(`${DATA_SERVICE}/students`, {
+            headers: {
+                Authorization: req.headers.authorization
+            }
+        });
+        res.status(response.status).json(response.data);
     } catch (error) {
-        res.status(500).json({ message: "Data Service Error" });
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
     }
 });
 
@@ -25,9 +31,11 @@ router.get('/students/:id', async (req, res) => {
                 }
             }
         );
-        res.json(response.data);
+        res.status(response.status).json(response.data);
     } catch (error) {
-        res.status(500).json({ message: "Data Service Error" });
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
     }
 });
 
