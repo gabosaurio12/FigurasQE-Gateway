@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
         const data = error.response?.data;
         
         res.status(status).json({
-            message: data?.message || "Authentication Service Error",
+            message: data?.message || data?.error || "Authentication Service Error",
             errors: data?.errors || null
         });
     }
@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
         const data = error.response?.data;
 
         res.status(status).json({
-            message: data?.message || "Authentication Service Error",
+            message: data?.message || data?.error || "Authentication Service Error",
             errors: data?.errors || null
         });
     }
