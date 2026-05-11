@@ -68,6 +68,63 @@ router.put('/students/:id', async (req, res) => {
         });
     }
 });
+        
+router.get('/students/:id/sessions', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await axios.get(
+            `${DATA_SERVICE}/students/${id}/sessions`,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
+    }
+});
+
+router.post('/sessions', async (req, res) => {
+    try {
+        const response = await axios.post(
+            `${DATA_SERVICE}/sessions`,
+            req.body,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
+    }
+});
+
+router.post('/level-results', async (req, res) => {
+    try {
+        const response = await axios.post(
+            `${DATA_SERVICE}/level-results`,
+            req.body,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
+    }
+});
 
 router.get('/tutors/:id', async (req, res) => {
     const id = req.params.id;
@@ -82,7 +139,47 @@ router.get('/tutors/:id', async (req, res) => {
         );
         res.json(response.data);
     } catch (error) {
-        res.status(500).json({ message: "Data Service Error" });
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
+    }
+});
+
+router.get('/tutors/:id/students', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await axios.get(
+            `${DATA_SERVICE}/tutors/${id}/students`,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
+    }
+});
+
+router.post('/tutors/assign-student', async (req, res) => {
+    try {
+        const response = await axios.post(
+            `${DATA_SERVICE}/tutors/assign-student`,
+            req.body,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
     }
 });
 
@@ -101,16 +198,16 @@ router.put('/tutors/:id', async (req, res) => {
             }
         );
 
-        res.json(response.data);
+        return res.status(response.status).json(response.data);
+
     } catch (error) {
         console.error("=== REAL ERROR FROM DATA SERVICE ===");
-
         console.error("STATUS:", error.response?.status);
         console.error("DATA:", error.response?.data);
         console.error("MESSAGE:", error.message);
 
-        res.status(500).json({
-            message: "Data Service Error",
+        return res.status(error.response?.status || 500).json({
+            message: error.response?.data?.message || "Data Service Error",
             details: error.response?.data || error.message
         });
     }
