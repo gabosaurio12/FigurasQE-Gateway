@@ -9,9 +9,11 @@ app.use(express.json());
 
 const authRoutes = require('./routes/auth');
 const dataRoutes = require('./routes/data');
+const handsRoutes = require('./routes/hands');
 
 app.use('/auth', authRoutes);
 app.use('/data', dataRoutes);
+app.use('/hands', handsRoutes);
 
 const PORT = process.env.PORT || 3000;
 
