@@ -10,10 +10,12 @@ app.use(express.json());
 const authRoutes = require('./routes/auth');
 const dataRoutes = require('./routes/data');
 const healthRoutes = require('./routes/health');
+const handsRoutes = require('./routes/hands');
 
 app.use('/auth', authRoutes);
 app.use('/data', dataRoutes);
 app.use('/health', healthRoutes);
+app.use('/hands', handsRoutes);
 
 const PORT = process.env.PORT || 3000;
 
