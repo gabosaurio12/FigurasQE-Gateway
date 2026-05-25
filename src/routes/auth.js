@@ -24,6 +24,25 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/admin/login', async (req, res) => {
+    try {
+        const response = await axios.post(
+            `${AUTH_SERVICE}/auth/admin/login`,
+            req.body
+        );
+
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+
+        res.status(status).json({
+            message: data?.message || data?.error || "Authentication Service Error",
+            errors: data?.errors || null
+        });
+    }
+});
+
 router.post('/register', async (req, res) => {
     try {
         const response = await axios.post(
