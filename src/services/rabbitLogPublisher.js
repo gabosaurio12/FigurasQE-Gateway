@@ -23,7 +23,7 @@ async function getChannel() {
             })
             .catch((error) => {
                 resetConnectionState();
-                throw error;
+                console.error('RabbitMQ connection failed:', error.message);
             });
     }
 

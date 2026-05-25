@@ -37,7 +37,6 @@ router.post('/', upload.single('image'), (req, res) => {
 
   let responded = false;
 
-  // timeout de seguridad (evita streams colgados)
   const timeout = setTimeout(() => {
     if (!responded) {
       responded = true;
@@ -68,7 +67,7 @@ router.post('/', upload.single('image'), (req, res) => {
       hands: response.hands_detected
     });
 
-    call.cancel(); // importante cerrar stream
+    call.cancel();
   });
 
   call.on('error', (err) => {
