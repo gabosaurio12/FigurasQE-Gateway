@@ -7,6 +7,7 @@ const AUTH_SERVICE = process.env.AUTH_SERVICE;
 const DATA_SERVICE = process.env.DATA_SERVICE;
 const LOGS_SERVICE = process.env.LOGS_SERVICE || 'http://localhost:5186';
 const FRONTEND_SERVICE = process.env.FRONTEND_SERVICE || 'http://localhost:5028';
+const RABBIT_LISTENER_SERVICE = process.env.RABBIT_LISTENER_SERVICE || 'http://localhost:5190';
 
 const serviceHealthChecks = {
     auth: { upstream: AUTH_SERVICE, path: '/health' },
@@ -14,7 +15,8 @@ const serviceHealthChecks = {
     frontend: { upstream: FRONTEND_SERVICE, path: '/health' },
     postgres: { upstream: DATA_SERVICE, path: '/health' },
     logs: { upstream: LOGS_SERVICE, path: '/health' },
-    mongo: { upstream: LOGS_SERVICE, path: '/health' }
+    mongo: { upstream: LOGS_SERVICE, path: '/health' },
+    'rabbit-listener': { upstream: RABBIT_LISTENER_SERVICE, path: '/health' }
 };
 
 router.get('/', async (_req, res) => {
