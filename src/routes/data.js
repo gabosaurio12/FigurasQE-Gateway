@@ -212,6 +212,36 @@ router.post('/sessions', async (req, res) => {
     }
 });
 
+router.put('/sessions/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const response = await axios.put(
+            `${DATA_SERVICE}/sessions/${id}`,
+            req.body,
+            {
+                headers: {
+                    Authorization: req.headers.authorization,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        res.json(response.data);
+    } catch (error) {
+        console.error("=== REAL ERROR FROM DATA SERVICE ===");
+
+        console.error("STATUS:", error.response?.status);
+        console.error("DATA:", error.response?.data);
+        console.error("MESSAGE:", error.message);
+
+        res.status(500).json({
+            message: "Data Service Error",
+            details: error.response?.data || error.message
+        });
+    }
+});
+
 router.post('/level-results', async (req, res) => {
     try {
         const response = await axios.post(
