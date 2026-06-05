@@ -193,6 +193,25 @@ router.get('/students/:id/sessions', async (req, res) => {
     }
 });
 
+router.get('/sessions/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await axios.get(
+            `${DATA_SERVICE}/sessions/${id}`,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        res.status(response.status).json(response.data);
+    } catch (error) {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        res.status(status).json({ message: data?.message || "Data Service Error" });
+    }
+});
+
 router.post('/sessions', async (req, res) => {
     try {
         const response = await axios.post(
